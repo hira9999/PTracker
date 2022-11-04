@@ -4,15 +4,19 @@ import { useForm } from '../../hooks/useForm';
 import styles from './TrackerForm.module.css';
 
 const TrackerForm = () => {
+  const initialValue = {
+    productURL: '',
+    desired_price: '',
+  };
   const {
     state: { loading },
     createItem,
   } = useContext(TrackerContext);
 
-  const { values, onChange, onSubmit } = useForm(createItem, {
-    productURL: '',
-    desired_price: '',
-  });
+  const { values, onChange, onSubmit } = useForm<typeof initialValue>(
+    createItem,
+    initialValue
+  );
 
   return (
     <div className={styles.wrap}>

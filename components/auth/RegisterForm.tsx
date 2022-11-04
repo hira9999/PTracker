@@ -6,18 +6,22 @@ import styles from './Login.module.css';
 import { useForm } from '../../hooks/useForm';
 
 const RegisterForm = () => {
+  const initialValue = {
+    userName: '',
+    password: '',
+    email: '',
+    confirmPassword: '',
+  };
   const {
     authReset,
     registerUser,
     state: { loading, errResponse, token },
   } = useContext(AuthContext);
 
-  const { values, onChange, onSubmit } = useForm(registerUser, {
-    userName: '',
-    password: '',
-    email: '',
-    confirmPassword: '',
-  });
+  const { values, onChange, onSubmit } = useForm<typeof initialValue>(
+    registerUser,
+    initialValue
+  );
 
   useEffect(() => {
     if (token) {
