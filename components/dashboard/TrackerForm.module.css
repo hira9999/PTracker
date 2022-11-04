@@ -1,0 +1,36 @@
+.form {
+  display: flex;
+  margin: 2rem 0;
+  width: 30rem;
+}
+.input {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.button_wrap {
+  display: flex;
+  padding: 1rem;
+  padding-top: 2rem;
+  align-items: center;
+}
+
+.button_wrap button {
+  height: 7rem;
+  color: #1f59bc;
+  background-color: #fff;
+  border: #1f59bc 2px solid;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .form {
+    width: 22rem;
+  }
+}

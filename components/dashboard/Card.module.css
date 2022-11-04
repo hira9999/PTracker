@@ -1,0 +1,44 @@
+.card {
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin-top: 2rem;
+}
+.last_update {
+  color: #3c4043;
+}
+
+.price_wrap {
+  display: flex;
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.icon {
+  cursor: pointer;
+}
+
+.subtitle {
+  margin-bottom: 1rem;
+}
+
+.price_box {
+  padding: 1rem;
+  padding-left: 0;
+}
+
+.price_box span {
+  font-size: 1.5rem;
+}
+
+.control {
+}
+
+.control span {
+  padding: 1rem;
+  padding-left: 0;
+  cursor: pointer;
+}

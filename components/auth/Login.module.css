@@ -1,0 +1,53 @@
+.container {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.banner {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.form_wrap {
+  margin-top: 8rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.button_submit {
+  cursor: pointer;
+  padding: 10px 16px;
+}
+
+.link {
+  cursor: pointer;
+  margin: 1rem 0;
+}
+
+.link:hover,
+.link:focus,
+.link:active {
+  color: #123212;
+}
+
+.error {
+  color: #fe0001;
+  font-family: 'Kanit', sans-serif;
+}

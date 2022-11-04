@@ -1,0 +1,24 @@
+.container {
+  height: 100%;
+  padding: 2rem;
+  font-family: 'Montserrat', 'Noto Sans KR';
+}
+
+.info {
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+}
+
+.errorBox {
+  display: flex;
+  align-items: center;
+  padding-left: 2rem;
+  background-color: #fe8b66;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 1px solid #ccc;
+  height: 3.5rem;
+  width: 100%;
+}
