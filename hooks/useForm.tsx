@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { SumbitCallbacks } from '../types/interfaces';
 
-export function useForm<T>(
+export const useForm = <T,>(
   submitCallback: SumbitCallbacks<T>,
   initialValue: T
-) {
+) => {
   const [values, setValues] = useState<T>(initialValue);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -22,4 +22,4 @@ export function useForm<T>(
   };
 
   return { onChange, onSubmit, values };
-}
+};
