@@ -48,7 +48,7 @@ export const TrackerProvider = ({
     getAllItems();
   }, [getAllItems]);
 
-  const createItem = async <T extends unknown>(values: T) => {
+  const createItem = async <T,>(values: T) => {
     try {
       dispatch({ type: 'TRACKER_START' });
       const res = await trackerAPI.post('/', values);
