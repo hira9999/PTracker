@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     decodeJwt();
   }, [decodeJwt]);
 
-  const loginUser = async <T extends unknown>(userData: T) => {
+  const loginUser = async <T,>(userData: T) => {
     try {
       dispatch({
         type: 'AUTH_START',
@@ -74,7 +74,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const registerUser = async <T extends unknown>(userData: T) => {
+  const registerUser = async <T,>(userData: T) => {
     try {
       dispatch({
         type: 'AUTH_START',
