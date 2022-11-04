@@ -16,7 +16,8 @@ const Card = ({ item }: Item) => {
     state: { loading },
   } = useContext(TrackerContext);
 
-  const renewal = async (e) => {
+  const renewal = async (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+    e.preventDefault();
     editItem(item._id);
   };
 
