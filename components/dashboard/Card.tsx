@@ -4,28 +4,40 @@ import { TrackerContext } from '../../context/traker/trackerContext';
 import { Product } from '../../types/interfaces';
 import { timeSince } from '../../utils/timeSince';
 import styles from './Card.module.css';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { trackerAPI } from '../../utils/apiUtil';
 
 interface Item {
   item: Product;
 }
 
 const Card = ({ item }: Item) => {
-  const {
-    deleteItem,
-    editItem,
-    state: { loading },
-  } = useContext(TrackerContext);
+  const queryClient = useQueryClient();
+  const deleteMutation = useMutation({
+    mutationFn: () => trackerAPI.delete(`/${item._id}`),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['trackers'] });
+    },
+  });
+  const onDelete = () => {
+    deleteMutation.mutate();
+  };
 
-  const renewal = async (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
-    e.preventDefault();
-    editItem(item._id);
+  const refreshMutation = useMutation({
+    mutationFn: () => trackerAPI.patch(`/${item._id}`),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['trackers'] });
+    },
+  });
+  const onRefesh = () => {
+    refreshMutation.mutate();
   };
 
   return (
     <div className={styles.card}>
       <div className={styles.header}>
         <h2 className={styles.title}>{item.product_name}</h2>
-        <div className={styles.icon} onClick={(e) => deleteItem(item._id)}>
+        <div className={styles.icon} onClick={onDelete}>
           <Image alt="trash" src="/trash.svg" width={30} height={30} />
         </div>
       </div>
@@ -38,7 +50,7 @@ const Card = ({ item }: Item) => {
       <div className={styles.price_wrap}>
         <div className={styles.price_box}>
           <p>Request Price</p>
-          <span>₩{item.desired_price.toLocaleString('en-US')}</span>
+          <span>₩{item.desired_price}</span>
         </div>
         <div className={styles.price_box}>
           <p>Last Price</p>
@@ -46,9 +58,7 @@ const Card = ({ item }: Item) => {
         </div>
       </div>
       <div className={styles.control}>
-        <span onClick={(e) => renewal(e)}>
-          {loading ? 'Updating..' : 'Renewal'}
-        </span>
+        <span onClick={onRefesh}>{'Renewal'}</span>
         <a href={item.siteUrl}>VISIT SITE</a>
       </div>
     </div>

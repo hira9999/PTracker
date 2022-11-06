@@ -1,26 +1,51 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { TrackerContext } from '../../context/traker/trackerContext';
 import { useForm } from '../../hooks/useForm';
 import styles from './TrackerForm.module.css';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { trackerAPI } from '../../utils/apiUtil';
+
+interface IValue {
+  productURL: string;
+  desired_price: string;
+}
 
 const TrackerForm = () => {
   const initialValue = {
     productURL: '',
     desired_price: '',
   };
-  const {
-    state: { loading },
-    createItem,
-  } = useContext(TrackerContext);
+  const queryClient = useQueryClient();
 
-  const { values, onChange, onSubmit } = useForm<typeof initialValue>(
-    createItem,
-    initialValue
-  );
+  const [values, setValues] = useState<IValue>(initialValue);
+
+  const onChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setValues({
+      ...values,
+      [(e.target as HTMLTextAreaElement).name]: (
+        e.target as HTMLTextAreaElement
+      ).value,
+    });
+  };
+
+  const createItem = useMutation({
+    mutationFn: (values: IValue) => {
+      console.log('post');
+      return trackerAPI.post('/', values);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['trackers'] });
+    },
+  });
+
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    createItem.mutate(values);
+  };
 
   return (
     <div className={styles.wrap}>
-      <form onSubmit={onSubmit} className={styles.form}>
+      <form onSubmit={(event) => onSubmit(event)} className={styles.form}>
         <div>
           <label>Product URL</label>
           <input
@@ -44,7 +69,7 @@ const TrackerForm = () => {
           />
         </div>
         <div className={styles.button_wrap}>
-          <button type="submit">{loading ? 'Loading' : 'ADD ITEM'}</button>
+          <button type="submit">ADD ITEM</button>
         </div>
       </form>
     </div>
