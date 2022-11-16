@@ -25,7 +25,7 @@ export default async function handler(req, res) {
     const { errors, valid } = loginValidator(userName, password);
 
     if (!valid) {
-      throw Error(errors);
+      throw errors;
     }
     const user = await User.findOne({ userName });
 
