@@ -38,15 +38,19 @@ export default async function handler(req, res) {
         const trackerIdx = foundedUser.trackers.findIndex(
           (t) => t.id === req.query.id
         );
-        const obj = foundedUser.trackers[trackerIdx];
-        const product = await trackSite(obj.productURL);
+        const foundedTracker = foundedUser.trackers[trackerIdx];
+        const product = await trackSite(foundedTracker.productURL);
 
-        const editedObj = { ...obj._doc, ...product, updated: Date.now() };
+        const editedTracker = {
+          ...foundedTracker._doc,
+          ...product,
+          updated: Date.now(),
+          isPriceMeet: foundedTracker.desired_price >= product.last_price,
+        };
 
-        foundedUser.trackers[trackerIdx] = editedObj;
+        foundedUser.trackers[trackerIdx] = editedTracker;
         await foundedUser.save();
         const updatedItem = foundedUser.trackers[trackerIdx];
-
         res.status(200).json({ success: true, updatedItem });
       } catch (err) {
         res.status(400).json({ success: false, err });
