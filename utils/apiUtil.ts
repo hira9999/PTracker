@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-const authApi = axios.create({
-  baseURL: 'http://localhost:3000/api/',
+const authAPI = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_AUTH_API_BASE_URL,
 });
 
 const trackerAPI = axios.create({
-  baseURL: 'http://localhost:3000/api/tracker',
+  baseURL: process.env.NEXT_PUBLIC_TRACKER_API_BASE_URL,
 });
 
 trackerAPI.interceptors.request.use((config) => {
@@ -16,4 +16,4 @@ trackerAPI.interceptors.request.use((config) => {
   return config;
 });
 
-export { authApi, trackerAPI };
+export { authAPI, trackerAPI };
