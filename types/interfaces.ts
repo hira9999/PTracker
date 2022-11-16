@@ -14,9 +14,10 @@ interface UserData {
 }
 
 interface Product {
+  isPriceMeet: boolean;
   createAt: number;
   desired_price: number;
-  last_price: string;
+  last_price: number;
   productURL: string;
   product_name: string;
   shop_name: string;
