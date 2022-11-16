@@ -1,47 +1,24 @@
-import React, { useContext, useState } from 'react';
-import { TrackerContext } from '../../context/traker/trackerContext';
+import React from 'react';
 import { useForm } from '../../hooks/useForm';
 import styles from './TrackerForm.module.css';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { trackerAPI } from '../../utils/apiUtil';
-
-interface IValue {
-  productURL: string;
-  desired_price: string;
-}
+import { useTrackerPost } from '../../hooks/useTrackerQuery';
 
 const TrackerForm = () => {
+  const createTrackerMutation = useTrackerPost();
+
   const initialValue = {
     productURL: '',
-    desired_price: '',
-  };
-  const queryClient = useQueryClient();
-
-  const [values, setValues] = useState<IValue>(initialValue);
-
-  const onChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setValues({
-      ...values,
-      [(e.target as HTMLTextAreaElement).name]: (
-        e.target as HTMLTextAreaElement
-      ).value,
-    });
+    desired_price: 0,
   };
 
-  const createItem = useMutation({
-    mutationFn: (values: IValue) => {
-      console.log('post');
-      return trackerAPI.post('/', values);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['trackers'] });
-    },
-  });
-
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    createItem.mutate(values);
+  const createTracker = () => {
+    createTrackerMutation.mutate(values);
   };
+
+  const { values, onChange, onSubmit } = useForm<typeof initialValue>(
+    createTracker,
+    initialValue
+  );
 
   return (
     <div className={styles.wrap}>
@@ -69,7 +46,7 @@ const TrackerForm = () => {
           />
         </div>
         <div className={styles.button_wrap}>
-          <button type="submit">ADD ITEM</button>
+          <button type="submit">ADD Tracker</button>
         </div>
       </form>
     </div>
