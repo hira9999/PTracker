@@ -1,27 +1,30 @@
 import axios from 'axios';
+import { PRODUCT_INFO_SELECTOR, LOWEST_PRICE_BASE_URL } from '../constants';
+
 const cheerio = require('cheerio');
 
-export const trackSite = async (url) => {
+export const trackSite = async (url: string) => {
   try {
-    if (!url.includes('https://search.shopping.naver.com/catalog')) {
-      throw 'Enter the url like https://search.shopping.naver.com/catalog/... ';
+    if (!url.includes(LOWEST_PRICE_BASE_URL)) {
+      throw `Enter the url like ${LOWEST_PRICE_BASE_URL}`;
     }
+
     const { data } = await axios.get(url);
     const $ = cheerio.load(data);
     const keys = ['last_price', 'shop_name', 'siteUrl', 'product_name'];
 
-    const SELECTOR =
-      '#__next > div > div.style_container__D_mqP > div.style_inner__ZMO5R > div.style_content_wrap__78pql > div.style_content__v25xx > div > div.summary_info_area__NP6l5 > div.lowestPrice_price_area__VDBfj';
     const productObj = {};
     let keyIdx = 0;
 
-    $(SELECTOR)
+    $(PRODUCT_INFO_SELECTOR)
       .children()
-      .each((idx, elem) => {
-        const value = $(elem).text();
+      .each((idx: number, elem) => {
+        const productInfo = $(elem).text();
         if (idx === 0) {
-          const splitedValue = value.split('최저')[1].trim();
-          productObj[keys[keyIdx]] = splitedValue;
+          const splitedPriceStr = productInfo.split('최저')[1].trim();
+          const splitedPriceNum = parseFloat(splitedPriceStr.replace(/,/g, ''));
+
+          productObj[keys[keyIdx]] = splitedPriceNum;
           keyIdx++;
           return;
         }
@@ -34,15 +37,17 @@ export const trackSite = async (url) => {
         const href = $('a', 'div', elem).attr('href');
         productObj[keys[keyIdx]] = href;
       });
-    $('h2').each((i, e) => {
-      if (i === 2) {
-        const value = $(e).text();
-        productObj[keys[3]] = value;
+
+    // get siteUrl
+    $('h2').each((idx, elem) => {
+      if (idx === 2) {
+        const siteUrl = $(elem).text();
+        productObj[keys[3]] = siteUrl;
       }
     });
 
     return productObj;
-  } catch (err) {
-    throw err;
+  } catch (error) {
+    throw error;
   }
 };
