@@ -1,9 +1,21 @@
 .card {
-  border: 1px solid #ccc;
+  border: 2px solid #ccc;
   border-radius: 0.5rem;
   padding: 1.5rem;
   margin-top: 2rem;
 }
+
+.card_active {
+  border: 2px solid #0070f3;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin-top: 2rem;
+}
+
+.card_active .title::after {
+  content: url('/checked.svg');
+}
+
 .last_update {
   color: #3c4043;
 }
@@ -18,7 +30,9 @@
 }
 
 .icon {
+  display: flex;
   cursor: pointer;
+  margin-left: 10px;
 }
 
 .subtitle {
