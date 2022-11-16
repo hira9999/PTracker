@@ -4,7 +4,7 @@ import React, {
   useEffect,
   useReducer,
 } from 'react';
-import { authApi } from '../../utils/apiUtil';
+import { authAPI } from '../../utils/apiUtil';
 import AuthReducer from './authReducer';
 import jwtDecode from 'jwt-decode';
 import { DecodedJwt } from '../../types/interfaces';
@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       dispatch({
         type: 'AUTH_START',
       });
-      const res = await authApi.post('/login', userData);
+      const res = await authAPI.post('/login', userData);
       const token = res.data.userData.token;
       localStorage.setItem('jwtToken', token);
       decodeJwt();
@@ -80,7 +80,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         type: 'AUTH_START',
       });
 
-      const res = await authApi.post('/register', userData);
+      const res = await authAPI.post('/register', userData);
       const token = res.data.userData.token;
       localStorage.setItem('jwtToken', token);
 
